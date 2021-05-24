@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VNet_Name": {
+            "type": "string",
+            "defaultValue": "VNet-1"
+        },
+        "Subnet_Name": {
+            "type": "string",
+            "defaultValue": "Subnet-1"
+        },
+        "Subnet_Address": {
+            "type": "string",
+            "defaultValue": "10.10.0.0/24"
+        },
+        "NSG_Name": {
+            "type": "string",
+            "defaultValue": "NSG-1"
+        }
+    },
+    "resources": [
+        {
+            "type"      : "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-05-01",
+            "location"  : "[resourceGroup().location]",
+            "name"      : "[concat(parameters('VNet_Name'), '/' , parameters('Subnet_Name'))]",
+            "properties": {
+                "addressPrefix"       : "[parameters('Subnet_Address')]",
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups' , parameters('NSG_Name'))]"
+                }
+            }
+        }
+    ]
+}

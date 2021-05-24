@@ -1,0 +1,83 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "NSG_Name": {
+            "type": "string",
+            "defaultValue": "NSG-1"
+        },
+        "NSG_Rule_Name": {
+            "type": "string",
+            "defaultValue": "NSG-Rule-1"
+        },
+        "NSG_Rule_Description": {
+            "type": "string",
+            "defaultValue": "NSG Rule to allow all ip"
+        },
+        "NSG_Rule_Protocol": {
+            "type": "string",
+            "defaultValue": "*"
+        },
+        "NSG_Rule_Source_Port_Range": {
+            "type": "string",
+            "defaultValue": "*"
+        },
+        "NSG_Rule_Destination_Port_Range": {
+            "type": "string",
+            "defaultValue": "*"
+        },
+        "NSG_Rule_Source_Address_Prefix": {
+            "type": "string",
+            "defaultValue": "*"
+        },
+        "NSG_Rule_Destination_Address_Prefix": {
+            "type": "string",
+            "defaultValue": "*"
+        },
+        "NSG_Rule_Access": {
+            "type": "string",
+            "defaultValue": "Allow"
+        },
+        "NSG_Rule_Priority": {
+            "type": "int",
+            "defaultValue": 100
+        },
+        "NSG_Rule_Direction": {
+            "type": "string",
+            "defaultValue": "Inbound"
+        },
+        "NSG_Tags": {
+            "type": "object",
+            "defaultValue": {
+                "Env": "Testing"
+            }
+        }
+    },
+    "resources": [
+        {
+            "name"      : "[parameters('NSG_Name')]",
+            "type"      : "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2018-08-01",
+            "location"  : "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name"      : "[parameters('NSG_Rule_Name')]",
+                        "properties": {
+                            "description"             : "[parameters('NSG_Rule_Description')]",
+                            "protocol"                : "[parameters('NSG_Rule_Protocol')]",
+                            "sourcePortRange"         : "[parameters('NSG_Rule_Source_Port_Range')]",
+                            "destinationPortRange"    : "[parameters('NSG_Rule_Destination_Port_Range')]",
+                            "sourceAddressPrefix"     : "[parameters('NSG_Rule_Source_Address_Prefix')]",
+                            "destinationAddressPrefix": "[parameters('NSG_Rule_Destination_Address_Prefix')]",
+                            "access"                  : "[parameters('NSG_Rule_Access')]",
+                            "priority"                : "[parameters('NSG_Rule_Priority')]",
+                            "direction"               : "[parameters('NSG_Rule_Direction')]"
+                        }
+                    }
+                ]
+            },
+            "tags": "[parameters('NSG_Tags')]"
+        }
+    ]
+}

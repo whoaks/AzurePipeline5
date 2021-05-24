@@ -1,0 +1,137 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Linux_VM_Name": {
+            "type": "string",
+            "defaultValue": "Linux-VM-1"
+        },
+        "Linux_VM_Size": {
+            "type": "string",
+            "defaultValue": "Standard_B1s"
+        },
+        "Linux_Username": {
+            "type": "string",
+            "defaultValue": "john"
+        },
+        "Linux_Password": {
+            "type": "string",
+            "defaultValue": "VM_12345"
+        },
+        "Linux_Disable_Password_Authentication": {
+            "type": "bool",
+            "defaultValue": false
+        },
+        "Linux_Image_Publisher": {
+            "type": "string",
+            "defaultValue": "Canonical"
+        },
+        "Linux_Image_Offer": {
+            "type": "string",
+            "defaultValue": "UbuntuServer"
+        },
+        "Linux_Image_SKU": {
+            "type": "string",
+            "defaultValue": "18.04-LTS"
+        },
+        "Linux_Image_Version": {
+            "type": "string",
+            "defaultValue": "latest"
+        },
+        "Linux_OsDisk_Name": {
+            "type": "string",
+            "defaultValue": "linux-vm-disk-1"
+        },
+        "Linux_OsDisk_Caching": {
+            "type": "string",
+            "defaultValue": "ReadWrite"
+        },
+        "Linux_OsDisk_Create_Option": {
+            "type": "string",
+            "defaultValue": "FromImage"
+        },
+        "Linux_DataDisk_Lun": {
+            "type": "int",
+            "defaultValue": 0
+        },
+        "VM_Disk_Name": {
+            "type": "string",
+            "defaultValue": "VM-disk-1"
+        },
+        "Linux_DataDisk_Create_Option": {
+            "type": "string",
+            "defaultValue": "Attach"
+        },
+        "Linux_Boot_Diagnostics_Enabled": {
+            "type": "bool",
+            "defaultValue": true
+        },
+        "Linux_VM_Tags": {
+            "type": "object",
+            "defaultValue": {
+                "Env": "Testing"
+            }
+        },
+        "NIC_Name": {
+            "type": "string",
+            "defaultValue": "NIC-1"
+        }
+    },
+    "resources": [
+        {
+            "name"      : "[parameters('Linux_VM_Name')]",
+            "type"      : "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2020-06-01",
+            "location"  : "[resourceGroup().location]",
+            "tags"      : "[parameters('Linux_VM_Tags')]",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize" : "[parameters('Linux_VM_Size')]"
+                },
+                "osProfile" : {
+                    "computerName"      : "[parameters('Linux_VM_Name')]",
+                    "adminUsername"     : "[parameters('Linux_Username')]",
+                    "adminPassword"     : "[parameters('Linux_Password')]",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": "[parameters('Linux_Disable_Password_Authentication')]"
+                    }
+                },
+                "storageProfile" : {
+                    "imageReference": {
+                        "publisher" : "[parameters('Linux_Image_Publisher')]",
+                        "offer"     : "[parameters('Linux_Image_Offer')]",
+                        "sku"       : "[parameters('Linux_Image_SKU')]",
+                        "version"   : "[parameters('Linux_Image_Version')]"
+                    },
+                    "osDisk": {
+                        "name"         : "[parameters('Linux_OsDisk_Name')]",
+                        "caching"      : "[parameters('Linux_OsDisk_Caching')]",
+                        "createOption" : "[parameters('Linux_OsDisk_Create_Option')]"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun"         : "[parameters('Linux_DataDisk_Lun')]",
+                            "name"        : "[parameters('VM_Disk_Name')]",
+                            "createOption": "[parameters('Linux_DataDisk_Create_Option')]",
+                            "managedDisk" : {
+                                "id": "[resourceId('Microsoft.Compute/disks' , parameters('VM_Disk_Name'))]"
+                            }
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC_Name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled"   : "[parameters('Linux_Boot_Diagnostics_Enabled')]"
+                    } 
+                }
+            }
+        }
+    ]
+}

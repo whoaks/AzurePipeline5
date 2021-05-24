@@ -1,0 +1,130 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Windows_VM_Name": {
+            "type": "string",
+            "defaultValue": "Windows-VM-1"
+        },
+        "Windows_VM_Size": {
+            "type": "string",
+            "defaultValue": "Standard_B1s"
+        },
+        "Windows_Username": {
+            "type": "string",
+            "defaultValue": "john"
+        },
+        "Windows_Password": {
+            "type": "string",
+            "defaultValue": "VM_12345"
+        },
+        "Windows_Image_Publisher": {
+            "type": "string",
+            "defaultValue": "MicrosoftWindowsServer"
+        },
+        "Windows_Image_Offer": {
+            "type": "string",
+            "defaultValue": "WindowsServer"
+        },
+        "Windows_Image_SKU": {
+            "type": "string",
+            "defaultValue": "2019-DataCenter"
+        },
+        "Windows_Image_Version": {
+            "type": "string",
+            "defaultValue": "latest"
+        },
+        "Windows_OsDisk_Name": {
+            "type": "string",
+            "defaultValue": "Windows-vm-disk-1"
+        },
+        "Windows_OsDisk_Caching": {
+            "type": "string",
+            "defaultValue": "ReadWrite"
+        },
+        "Windows_OsDisk_Create_Option": {
+            "type": "string",
+            "defaultValue": "FromImage"
+        },
+        "Windows_DataDisk_Lun": {
+            "type": "int",
+            "defaultValue": 1
+        },
+        "VM_Disk_Name": {
+            "type": "string",
+            "defaultValue": "VM-disk-1"
+        },
+        "Windows_DataDisk_Create_Option": {
+            "type": "string",
+            "defaultValue": "Attach"
+        },
+        "Windows_Boot_Diagnostics_Enabled": {
+            "type": "bool",
+            "defaultValue": true
+        },
+        "Windows_VM_Tags": {
+            "type": "object",
+            "defaultValue": {
+                "Env": "Testing"
+            }
+        },
+        "NIC_Name": {
+            "type": "string",
+            "defaultValue": "NIC-1"
+        }
+    },
+    "resources": [
+        {
+            "name"       : "[parameters('Windows_VM_Name')]",
+            "type"       : "Microsoft.Compute/virtualMachines",
+            "apiVersion" : "2020-06-01",
+            "location"   : "[resourceGroup().location]",
+            "tags" : "[parameters('Windows_VM_Tags')]",
+            "properties" : {
+                "hardwareProfile": {
+                    "vmSize" : "[parameters('Windows_VM_Size')]"
+                },
+                "osProfile" : {
+                    "computerName"  : "[parameters('Windows_VM_Name')]",
+                    "adminUsername" : "[parameters('Windows_Username')]",
+                    "adminPassword" : "[parameters('Windows_Password')]"
+                },
+                "storageProfile" : {
+                    "imageReference" : {
+                        "publisher" : "[parameters('Windows_Image_Publisher')]",
+                        "offer"     : "[parameters('Windows_Image_Offer')]",
+                        "sku"       : "[parameters('Windows_Image_SKU')]",
+                        "version"   : "[parameters('Windows_Image_Version')]"
+                    },
+                    "osDisk": {
+                        "name"         : "[parameters('Windows_OsDisk_Name')]",
+                        "caching"      : "[parameters('Windows_OsDisk_Caching')]",
+                        "createOption" : "[parameters('Windows_OsDisk_Create_Option')]"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun"         : "[parameters('Windows_DataDisk_Lun')]",
+                            "name"        : "[parameters('VM_Disk_Name')]",
+                            "createOption": "[parameters('Windows_DataDisk_Create_Option')]",
+                            "managedDisk" : {
+                                "id": "[resourceId('Microsoft.Compute/disks' , parameters('VM_Disk_Name'))]"
+                            }
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC_Name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled"   : "[parameters('Windows_Boot_Diagnostics_Enabled')]"
+                    }
+                }
+            }
+        }
+    ]
+}

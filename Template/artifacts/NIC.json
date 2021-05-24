@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "NIC_Name": {
+            "type": "string",
+            "defaultValue": "NIC-1"
+        },
+        "NIC_IP_Cfg_Name": {
+            "type": "string",
+            "defaultValue": "NIC-IP-Cfg-1"
+        },
+        "NIC_Private_IP_Allocation": {
+            "type": "string",
+            "defaultValue": "Dynamic"
+        },
+        "NIC_Tags": {
+            "type": "object",
+            "defaultValue": {
+                "Env": "Testing"
+            }
+        },
+        "Public_IP_Name": {
+            "type": "string",
+            "defaultValue": "IP-1"
+        },
+        "VNet_Name": {
+            "type": "string",
+            "defaultValue": "VNet-1"
+        },
+        "Subnet_Name": {
+            "type": "string",
+            "defaultValue": "Subnet-1"
+        }
+    },
+    "resources": [
+        {
+            "name"      : "[parameters('NIC_Name')]",
+            "type"      : "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-05-01",
+            "location"  : "[resourceGroup().location]",
+            "tags"      : "[parameters('NIC_Tags')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name"      : "[parameters('NIC_IP_Cfg_Name')]",
+                        "properties": {
+                            "privateIPAllocationMethod": "[parameters('NIC_Private_IP_Allocation')]",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses' , parameters('Public_IP_Name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VNet_Name'), parameters('Subnet_Name'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

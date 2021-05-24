@@ -1,0 +1,44 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VM_Disk_Name": {
+            "type": "string",
+            "defaultValue": "VM-disk-1"
+        },
+        "VM_Disk_SKU_Name": {
+            "type": "string",
+            "defaultValue": "Standard_LRS"
+        },
+        "VM_Disk_SKU_Tier": {
+            "type": "string",
+            "defaultValue": "Standard"
+        },
+        "VM_Disk_Creation_Option": {
+            "type": "string",
+            "defaultValue": "Empty"
+        },
+        "VM_Disk_Size": {
+            "type": "int",
+            "defaultValue": 127
+        }
+    },
+    "resources": [
+        {
+            "name"      : "[parameters('VM_Disk_Name')]",
+            "apiVersion": "2020-06-30",
+            "type"      : "Microsoft.Compute/disks",
+            "location"  : "[resourceGroup().location]",
+            "sku": {
+                "name": "[parameters('VM_Disk_SKU_Name')]",
+                "tier": "[parameters('VM_Disk_SKU_Tier')]"
+            },
+            "properties": {
+                "creationData": {
+                    "createOption": "[parameters('VM_Disk_Creation_Option')]"
+                },
+                "diskSizeGB": "[parameters('VM_Disk_Size')]"
+            }
+        }
+    ]
+}

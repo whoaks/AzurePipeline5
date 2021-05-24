@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Public_IP_Name": {
+            "type": "string",
+            "defaultValue": "IP-1"
+        },
+        "Public_IP_Allocation": {
+            "type": "string",
+            "defaultValue": "Dynamic"
+        },
+        "Public_IP_DNS_Name": {
+            "type": "string",
+            "defaultValue": "mydns4523"
+        },
+        "Public_IP_Tags": {
+            "type": "object",
+            "defaultValue": {
+                "Env": "Testing"
+            }
+        }
+    },
+    "resources": [
+        {
+            "name"      : "[parameters('Public_IP_Name')]",
+            "type"      : "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-05-01",
+            "location"  : "[resourceGroup().location]",
+            "tags"      : "[parameters('Public_IP_Tags')]",
+            "properties": {
+                "publicIPAllocationMethod": "[parameters('Public_IP_Allocation')]",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('Public_IP_DNS_Name')]"
+                }
+            }
+        }
+    ]
+}
