@@ -4,7 +4,7 @@
     "parameters": {
         "VNet_Name": {
             "type": "string",
-            "defaultValue": "VNet-1"
+            "defaultValue": "VNet"
         },
         "Subnet_Name": {
             "type": "string",
@@ -16,13 +16,13 @@
         },
         "NSG_Name": {
             "type": "string",
-            "defaultValue": "NSG-1"
+            "defaultValue": "NSG"
         }
     },
     "resources": [
         {
             "type"      : "Microsoft.Network/virtualNetworks/subnets",
-            "apiVersion": "2020-05-01",
+            "apiVersion": "2020-06-01",
             "location"  : "[resourceGroup().location]",
             "name"      : "[concat(parameters('VNet_Name'), '/' , parameters('Subnet_Name'))]",
             "properties": {
