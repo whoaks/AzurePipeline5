@@ -54,7 +54,7 @@
                 "[resourceId('Microsoft.Resources/deployments', 'LT-NSG')]"
             ]
         },
-      /*  {
+        {
             "name": "LT-Public-IP",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -91,7 +91,7 @@
                 }
             }
         },
-        {
+      /*  {
             "condition": "[equals(parameters('Users_Choice') , 'linux')]",
             "name": "LT-Linux-VM",
             "type": "Microsoft.Resources/deployments",
