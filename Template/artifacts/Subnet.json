@@ -15,7 +15,7 @@
             "defaultValue": "10.10.0.0/24"
         },
         "NSG_Name": {
-            "type": "string",
+            "type"        : "string",
             "defaultValue": "NSG"
         }
     },
