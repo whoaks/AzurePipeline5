@@ -40,7 +40,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('VNet_Name'))]"
             ]
         },
-      /*  {
+        {
             "name": "LT-Subnet",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -54,7 +54,7 @@
                 "[resourceId('Microsoft.Resources/deployments', 'LT-NSG')]"
             ]
         },
-        {
+      /*  {
             "name": "LT-Public-IP",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
