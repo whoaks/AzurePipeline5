@@ -47,7 +47,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "relativePath": "artifacts/Subnet2.json"
+                    "relativePath": "artifacts/Subnet.json"
                 }
             },
             "dependsOn": [
