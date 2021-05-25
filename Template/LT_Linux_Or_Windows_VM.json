@@ -27,7 +27,7 @@
     },
     "resources": [
         {
-            "name": "linkedDeployment1",
+            "name": "LT-NSG",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "properties": {
@@ -40,8 +40,8 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('VNet_Name'))]"
             ]
         },
-        {
-            "name": "linkedDeployment2",
+      /*  {
+            "name": "LT-Subnet",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "properties": {
@@ -51,11 +51,11 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linkedDeployment1')]"
+                "[resourceId('Microsoft.Resources/deployments', 'LT-NSG')]"
             ]
         },
         {
-            "name": "linkedDeployment3",
+            "name": "LT-Public-IP",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "properties": {
@@ -66,7 +66,7 @@
             }
         },
         {
-            "name": "linkedDeployment4",
+            "name": "LT-NIC",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "properties": {
@@ -76,12 +76,12 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linkedDeployment2')]",
-                "[resourceId('Microsoft.Resources/deployments', 'linkedDeployment3')]"
+                "[resourceId('Microsoft.Resources/deployments', 'LT-Subnet')]",
+                "[resourceId('Microsoft.Resources/deployments', 'LT-Public-IP')]"
             ]
         },
         {
-            "name": "linkedDeployment5",
+            "name": "LT-Disks",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "properties": {
@@ -93,7 +93,7 @@
         },
         {
             "condition": "[equals(parameters('Users_Choice') , 'linux')]",
-            "name": "linkedDeployment6",
+            "name": "LT-Linux-VM",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "properties": {
@@ -103,12 +103,12 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linkedDeployment4')]"
+                "[resourceId('Microsoft.Resources/deployments', 'LT-NIC')]"
             ]
         },
         {
             "condition": "[equals(parameters('Users_Choice') ,'windows')]",
-            "name": "linkedDeployment7",
+            "name": "LT-Windows-VM",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "properties": {
@@ -118,10 +118,10 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linkedDeployment4')]"
+                "[resourceId('Microsoft.Resources/deployments', 'LT-NIC')]"
             ]
         },
-        {
+      */  {
             "name": "[parameters('VNet_Name')]",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2020-05-01",
