@@ -13,10 +13,10 @@ steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope               : 'Resource Group'
-    azureResourceManagerConnection: 'aksarmsp5'
+    azureResourceManagerConnection: 'aksarmsp6'
     subscriptionId                : 3280ff72-14fc-46dd-809e-ccee75183a87
     action                        : 'Create Or Update Resource Group'
-    resourceGroupName             : 'Aks-RG2'
+    resourceGroupName             : 'Aks-RG'
     location                      : 'East US'
     templateLocation              : 'URL of the file'
     csmFileLink                   : 'https://raw.githubusercontent.com/whoaks/AzurePipeline5/main/Template/LT_Linux_Or_Windows_VM.json'
