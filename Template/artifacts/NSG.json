@@ -4,7 +4,7 @@
     "parameters": {
         "NSG_Name": {
             "type": "string",
-            "defaultValue": "NSG-1"
+            "defaultValue": "NSG"
         },
         "NSG_Rule_Name": {
             "type": "string",
